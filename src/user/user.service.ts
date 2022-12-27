@@ -9,4 +9,7 @@ export class UserService {
       mes: 'sucess',
     };
   }
+  register(userParam: any) {
+    console.log('userParam', userParam);
+  }
 }

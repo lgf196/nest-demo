@@ -1,7 +1,7 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ProductController } from './product.controller';
-import { UserService } from '@/user/user.service';
+import { UserService } from '@/module/user/user.service';
 
 @Module({
   controllers: [ProductController],

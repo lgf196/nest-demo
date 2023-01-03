@@ -12,7 +12,6 @@ export class LoggerInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler) {
     const ctx = context.switchToHttp();
     const req = ctx.getRequest<Request>();
-    console.log('first', req.originalUrl);
     return next.handle().pipe(
       tap(() => {
         logger.info(`操作成功 <===> ${req.originalUrl}`);

@@ -18,7 +18,6 @@ export class ResponseInterceptor<T> implements NestInterceptor {
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<ResponseData<T>> {
-    console.log('44444', 44444);
     return next.handle().pipe(
       map((data) => ({
         code: resStatusCode.success,

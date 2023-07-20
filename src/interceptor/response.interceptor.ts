@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { resStatusCode } from '@/utils';
 
 export interface Response<T> {
   data: T;
@@ -16,12 +17,13 @@ export class ResponseInterceptor<T> implements NestInterceptor {
   intercept(
     context: ExecutionContext,
     next: CallHandler,
-  ): Observable<Response<T>> {
+  ): Observable<ResponseData<T>> {
+    console.log('44444', 44444);
     return next.handle().pipe(
       map((data) => ({
-        code: 0,
+        code: resStatusCode.success,
         data,
-        msg: '0',
+        msg: '成功',
       })),
     );
   }

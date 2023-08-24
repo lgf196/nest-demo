@@ -26,3 +26,12 @@ export enum resStatusCode {
    */
   serverError = 5,
 }
+
+export const exclude = <T, Key extends keyof T>(
+  data: T,
+  keys: Key[],
+): Omit<T, Key> => {
+  return Object.fromEntries(
+    Object.entries(data).filter(([key]) => !keys.includes(key as any)),
+  ) as Omit<T, Key>;
+};

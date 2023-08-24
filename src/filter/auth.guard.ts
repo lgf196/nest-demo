@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
     } else {
       throw new UnauthorizedException({
         code: resStatusCode.noAuth,
-        msg: '没有权限',
+        message: '没有权限',
         data: null,
       });
     }

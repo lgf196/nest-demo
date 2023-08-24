@@ -19,7 +19,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       // 对数据库错误进行拦截
       response.status(200).json({
         code: resStatusCode.failed,
-        msg: exception.message,
+        message: exception.message,
         data: null,
       });
     } else {
@@ -29,21 +29,28 @@ export class HttpExceptionFilter implements ExceptionFilter {
           ? exception.getStatus()
           : HttpStatus.INTERNAL_SERVER_ERROR;
 
-      const exceptionRes = exception.getResponse() as ResponseData;
-
       logger.error(
         `操作失败， code===>${status} msg===>${exception.message} path===>${request.originalUrl}`,
       );
+      // console.log('exception', exception);
 
-      if (exceptionRes && exceptionRes.code === resStatusCode.noAuth) {
-        console.log('66666', 66666);
-        response.status(200).json({
-          ...exceptionRes,
-        });
+      if (exception.getResponse) {
+        const exceptionRes = exception.getResponse() as ResponseData;
+        if (exceptionRes && exceptionRes.code === resStatusCode.noAuth) {
+          response.status(200).json({
+            ...exceptionRes,
+          });
+        } else {
+          response.status(200).json({
+            code: resStatusCode.failed,
+            message: exception.message,
+            data: null,
+          });
+        }
       } else {
         response.status(200).json({
           code: resStatusCode.failed,
-          msg: exception.message,
+          message: exception.message,
           data: null,
         });
       }

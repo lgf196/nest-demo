@@ -7,6 +7,7 @@ import { LoggerInterceptor } from './interceptor/logger.interceptor';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // app.use(LoggerMiddleware); 用拦截器代替中间件
+  app.setGlobalPrefix('api'); // 全局root
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new LoggerInterceptor(), new ResponseInterceptor());
   await app.listen(3000);

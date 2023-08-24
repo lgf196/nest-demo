@@ -22,7 +22,7 @@ export class ResponseInterceptor<T> implements NestInterceptor {
       map((data) => ({
         code: resStatusCode.success,
         data,
-        msg: '成功',
+        message: '成功',
       })),
     );
   }

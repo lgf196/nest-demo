@@ -7,50 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model category {
-  id   Int     @id @default(autoincrement())
-  name String? @db.VarChar(255)
-  des  String? @db.VarChar(255)
-}
-
-model post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  authorId  Int
-
-  @@index([authorId], map: "Post_authorId_fkey")
-}
-
-model product_des {
-  id    Int     @id @default(autoincrement())
-  title String? @db.VarChar(255)
-  des   String  @default("") @db.VarChar(255)
-
-  @@map("product-des")
-}
-
-model product_rules {
-  name String? @db.VarChar(255)
-  id   Int     @id @default(autoincrement())
-}
-
-model products {
-  productname String? @db.VarChar(255)
-  id          Int     @id @default(autoincrement())
-}
-
-model profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  userId Int     @unique(map: "Profile_userId_key")
-}
-
 model user {
-  id    Int     @id @default(autoincrement())
-  email String  @unique(map: "User_email_key")
-  name  String?
+  userName String? @db.VarChar(255)
+  password String  @db.VarChar(255)
+  id       Int     @id @default(autoincrement())
 }

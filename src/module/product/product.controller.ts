@@ -22,7 +22,7 @@ export class ProductController {
   }
   @Get('/deslists')
   async getDesList() {
-    const res = await this.prismaService.product_des.findMany();
+    const res = await this.prismaService.user.findMany();
     return res;
   }
   @UseGuards(AuthGuard)

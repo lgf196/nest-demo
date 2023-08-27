@@ -3,21 +3,12 @@ import { PrismaService } from '@/db/prisma/prisma.service';
 import { user } from '@prisma/client';
 import * as md5 from 'md5';
 import { exclude } from '@/utils';
+export interface LoginType extends user {
+  code: string;
+}
 @Injectable()
 export class UserService {
   constructor(private readonly PrismaService: PrismaService) {}
-  async getList() {
-    const res = await this.PrismaService.user.findMany({});
-    return res;
-    // return {
-    //   code: 0,
-    //   data: [1, 2, 3],
-    //   mes: 'sucess',
-    // };
-  }
-  register(userParam: any) {
-    console.log('userParam', userParam);
-  }
   getPassword(data: user) {
     const salte = 'lgf';
     const saltPassword = data.password + salte;
@@ -46,7 +37,11 @@ export class UserService {
     });
     return null;
   }
-  async login(data: user) {
+  async login(data: LoginType, code: LoginType['code']) {
+    const codeReg = new RegExp(data.code, 'ig');
+    if (!codeReg.test(code)) {
+      throw new BadRequestException('验证码不对，请输入正确的验证码');
+    }
     const { md5Password } = this.getPassword(data);
     const findUser = await this.findUser(data.userName);
     if (!findUser) {
@@ -57,5 +52,14 @@ export class UserService {
     } else {
       return exclude(findUser, ['password']);
     }
+  }
+  async removeUser(ids: number[]) {
+    let res = await this.PrismaService.user.deleteMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
   }
 }

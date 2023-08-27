@@ -18,7 +18,7 @@ export class ProductController {
   ) {}
   @Get()
   getProductList() {
-    return this.userService.getList();
+    // return this.userService.getList();
   }
   @Get('/deslists')
   async getDesList() {

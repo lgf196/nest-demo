@@ -36,7 +36,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
       if (exception.getResponse) {
         const exceptionRes = exception.getResponse() as ResponseData;
-        if (exceptionRes && exceptionRes.code === resStatusCode.noAuth) {
+        if (
+          exceptionRes &&
+          [resStatusCode.noAuth, resStatusCode.noLogin].includes(
+            exceptionRes.code,
+          )
+        ) {
           response.status(200).json({
             ...exceptionRes,
           });

@@ -35,3 +35,7 @@ export const exclude = <T, Key extends keyof T>(
     Object.entries(data).filter(([key]) => !keys.includes(key as any)),
   ) as Omit<T, Key>;
 };
+
+export const awaitWrap = <T = any>(promise: Promise<T>) => {
+  return promise.then((res) => [null, res]).catch((err) => [err, null]);
+};
